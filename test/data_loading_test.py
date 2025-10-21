@@ -1,10 +1,12 @@
 import pytest
-from data_ingestion.document_loader.pdf_loader import PDFLoader
-from data_ingestion.document_loader.docx_loader import DocxLoader
-from data_ingestion.document_loader.txt_loader import TxtLoader
+import sys, os
+sys.path.append(os.path.abspath(os.getcwd()))
+from data_setup.document_loader.pdf_loader import PDFLoader
+from data_setup.document_loader.docx_loader import DocxLoader
+from data_setup.document_loader.txt_loader import TxtLoader
 import os
-
-SAMPLE_DIR = "test_folder/sample_text"
+import sys, os
+SAMPLE_DIR = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/test/sample_text"
 
 # ---------- PDF ----------
 def test_pdf_loader_extracts_text():
@@ -66,3 +68,5 @@ def test_invalid_file_type_raises_error():
         docx_loader.load(invalid_file)
     with pytest.raises(ValueError):
         txt_loader.load(invalid_file)
+
+print("HAHA")

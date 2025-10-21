@@ -10,7 +10,7 @@ import os
 import json
 from typing import List, Dict, Any
 
-from data_ingestion.ingestion_interfaces import StorageManager
+from data_setup.ingestion_interfaces import StorageManager
 
 
 class LocalStorageManager(StorageManager):

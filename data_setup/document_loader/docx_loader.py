@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Dict, Any
 import docx  # python-docx
 
-from data_ingestion.ingestion_interfaces import DocumentLoader
+from data_setup.ingestion_interfaces import DocumentLoader
 
 
 class DocxLoader(DocumentLoader):

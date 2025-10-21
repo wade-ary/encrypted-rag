@@ -3,7 +3,7 @@ import os
 from typing import Dict, Any
 from datetime import datetime
 
-from data_ingestion.ingestion_interfaces import DocumentLoader
+from data_setup.ingestion_interfaces import DocumentLoader
 
 
 class PDFLoader(DocumentLoader):

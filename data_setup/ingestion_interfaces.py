@@ -80,13 +80,13 @@ class DocumentIngestionPipeline:
         preprocessor: TextPreprocessor,
         embedder: EmbeddingGenerator,
         storage: StorageManager,
-        metadata_manager: MetadataManager
+   
     ):
         self.loader = loader
         self.preprocessor = preprocessor
         self.embedder = embedder
         self.storage = storage
-        self.metadata = metadata_manager
+      
 
     def ingest(self, file_path: str, sector: str, permission: str) -> str:
         """Runs the full ingestion pipeline end-to-end."""

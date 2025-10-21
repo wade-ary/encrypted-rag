@@ -1,7 +1,7 @@
 import re
 from typing import List
 
-from data_ingestion.ingestion_interfaces import TextPreprocessor
+from data_setup.ingestion_interfaces import TextPreprocessor
 
 
 class BasicPreprocessor(TextPreprocessor):

@@ -2,7 +2,7 @@
 import numpy as np #numpy
 from typing import List, Any
 
-from data_ingestion.ingestion_interfaces import EmbeddingGenerator
+from data_setup.ingestion_interfaces import EmbeddingGenerator
 
 
 class BasicEmbedder(EmbeddingGenerator):
