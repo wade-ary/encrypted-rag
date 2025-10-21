@@ -63,24 +63,6 @@ class StorageManager(ABC):
         pass
 
 
-class MetadataManager(ABC):
-    """Interface for tracking and retrieving document metadata."""
-    
-    @abstractmethod
-    def register(
-        self,
-        doc_id: str,
-        sector: str,
-        permission: str,
-        metadata: Dict[str, Any]
-    ) -> None:
-        """Stores document metadata with sector and permission tags."""
-        pass
-
-    @abstractmethod
-    def list_documents(self, filters: Dict[str, Any] = None) -> List[Dict[str, Any]]:
-        """Lists documents optionally filtered by sector or permission."""
-        pass
 
 
 # =========================================================

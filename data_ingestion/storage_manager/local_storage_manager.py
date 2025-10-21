@@ -43,14 +43,15 @@ class LocalStorageManager(StorageManager):
             json.dump(self.embeddings_data, f, indent=4)
 
     def store(
-        self,
-        doc_id: str,
-        chunks: List[str],
-        embeddings: List[List[float]],
-        metadata: Dict[str, Any]
+    self,
+    doc_id: str,
+    chunks: List[str],
+    embeddings: List[List[float]],
+    metadata: Dict[str, Any]
     ) -> None:
         """
-        Stores embeddings for a document (text and metadata are ignored here).
+        Adds embeddings for a document into the FAISS index while maintaining
+        a mapping of which vector IDs belong to which document.
 
         Args:
             doc_id (str): Unique document identifier.
@@ -58,10 +59,50 @@ class LocalStorageManager(StorageManager):
             embeddings (List[List[float]]): List of embedding vectors.
             metadata (Dict[str, Any]): Ignored (handled by MetadataManager).
         """
-        self.embeddings_data[doc_id] = {
-            "embeddings": embeddings
-        }
-        self._save_storage()
+    import faiss
+    import numpy as np
+
+    # Ensure FAISS index exists or create one
+    index_path = "faiss_index.bin"
+    mapping_path = "embedding_map.json"
+
+    # Convert embeddings to NumPy array and normalize
+    embedding_array = np.array(embeddings).astype("float32")
+    faiss.normalize_L2(embedding_array)
+
+    # Load or initialize index
+    if os.path.exists(index_path):
+        index = faiss.read_index(index_path)
+    else:
+        dim = embedding_array.shape[1]
+        index = faiss.IndexFlatIP(dim)
+
+    # Record start and end IDs for this document
+    start_id = index.ntotal
+    index.add(embedding_array)
+    end_id = index.ntotal
+    new_ids = list(range(start_id, end_id))
+
+    # Update mapping (FAISS ID → doc reference)
+    if os.path.exists(mapping_path):
+        with open(mapping_path, "r", encoding="utf-8") as f:
+            try:
+                id_map = json.load(f)
+            except json.JSONDecodeError:
+                id_map = {}
+    else:
+        id_map = {}
+
+    id_map[doc_id] = {
+        "faiss_ids": new_ids,
+        "count": len(new_ids)
+    }
+
+    # Save updated mapping and FAISS index
+    with open(mapping_path, "w", encoding="utf-8") as f:
+        json.dump(id_map, f, indent=4)
+    faiss.write_index(index, index_path)
+
 
     def retrieve(self, doc_id: str) -> Dict[str, Any]:
         """
