@@ -4,4 +4,5 @@ numpy
 faiss
 pytest
 openai
-faiss
+faiss-cpu
+python-dotenv

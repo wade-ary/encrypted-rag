@@ -10,6 +10,7 @@ import os
 import json
 from typing import List, Dict, Any
 import faiss 
+import numpy as np
 
 from data_setup.ingestion_interfaces import StorageManager
 
@@ -62,53 +63,53 @@ class LocalStorageManager(StorageManager):
         """
     
     
-    base_dir = "data_store"
-    index_path = "faiss_index.bin"
-    mapping_path = "embedding_map.json"
+        base_dir = "data_store"
+        index_path = "faiss_index.bin"
+        mapping_path = "embedding_map.json"
 
-    os.makedirs(base_dir, exist_ok=True)
+        os.makedirs(base_dir, exist_ok=True)
 
-    # Convert embeddings to NumPy array and normalize
-    embedding_array = np.array(embeddings).astype("float32")
-    faiss.normalize_L2(embedding_array)
+        # Convert embeddings to NumPy array and normalize
+        embedding_array = np.array(embeddings).astype("float32")
+        faiss.normalize_L2(embedding_array)
 
-    # Load or initialize index
-    if os.path.exists(index_path):
-        index = faiss.read_index(index_path)
-    else:
-        dim = embedding_array.shape[1]
-        index = faiss.IndexFlatIP(dim)
+        # Load or initialize index
+        if os.path.exists(index_path):
+            index = faiss.read_index(index_path)
+        else:
+            dim = embedding_array.shape[1]
+            index = faiss.IndexFlatIP(dim)
 
-    # Record start and end IDs for this document
-    start_id = index.ntotal
-    index.add(embedding_array)
-    end_id = index.ntotal
-    new_ids = list(range(start_id, end_id))
+        # Record start and end IDs for this document
+        start_id = index.ntotal
+        index.add(embedding_array)
+        end_id = index.ntotal
+        new_ids = list(range(start_id, end_id))
 
-    # Update mapping (FAISS ID → doc reference)
-    if os.path.exists(meta_path):
-        with open(meta_path, "r", encoding="utf-8") as f:
-            try:
-                id_map = json.load(f)
-            except json.JSONDecodeError:
-                id_map = {}
-    else:
-        id_map = {}
+        # Update mapping (FAISS ID → doc reference)
+        if os.path.exists(meta_path):
+            with open(meta_path, "r", encoding="utf-8") as f:
+                try:
+                    id_map = json.load(f)
+                except json.JSONDecodeError:
+                    id_map = {}
+        else:
+            id_map = {}
 
-    # --- Update document entry ---
-    id_map[doc_id] = {
-        "faiss_ids": new_ids,          # FAISS vector IDs for this document
-        "chunks": chunks,              # raw text chunks
-        "embeddings": embeddings,      # store embeddings for rebuilds
-        "metadata": metadata,          # extra info like filename, path, etc.
-        "count": len(new_ids)
-    }
+        # --- Update document entry ---
+        id_map[doc_id] = {
+            "faiss_ids": new_ids,          # FAISS vector IDs for this document
+            "chunks": chunks,              # raw text chunks
+            "embeddings": embeddings,      # store embeddings for rebuilds
+            "metadata": metadata,          # extra info like filename, path, etc.
+            "count": len(new_ids)
+        }
 
-    # --- Save metadata + FAISS index ---
-    with open(meta_path, "w", encoding="utf-8") as f:
-        json.dump(id_map, f, indent=4)
+        # --- Save metadata + FAISS index ---
+        with open(meta_path, "w", encoding="utf-8") as f:
+            json.dump(id_map, f, indent=4)
 
-    faiss.write_index(index, index_path)
+        faiss.write_index(index, index_path)
 
 
     def retrieve(self, doc_id: str) -> Dict[str, Any]:

@@ -4,7 +4,9 @@ from typing import List, Any
 import openai
 import faiss
 import os
-from openai import OpenA
+from openai import OpenAI
+from dotenv import load_dotenv
+load_dotenv()
 from data_setup.ingestion_interfaces import EmbeddingGenerator
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"),
@@ -39,6 +41,7 @@ class BasicEmbedder(EmbeddingGenerator):
         Returns:
             List[List[float]]: List of embedding vectors (lists of floats).
         """
+        model="text-embedding-ada-002"
         all_embeddings = []
 
         for i in range(0, len(text_chunks), batch_size):
