@@ -1,9 +1,15 @@
 
 import numpy as np #numpy
 from typing import List, Any
-
+import openai
+import faiss
+import os
+from openai import OpenA
 from data_setup.ingestion_interfaces import EmbeddingGenerator
 
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"),
+    project=os.getenv("OPENAI_PROJECT_ID"),
+    organization= os.getenv("OPENAI_ORG_ID"))
 
 class BasicEmbedder(EmbeddingGenerator):
     """
@@ -23,7 +29,7 @@ class BasicEmbedder(EmbeddingGenerator):
         self.embedding_dim = embedding_dim
         self.rng = np.random.default_rng(seed)
 
-    def encode(self, text_chunks: List[str]) -> List[List[float]]:
+    def encode(self, text_chunks: List[str], batch_size: int = 100) -> List[List[float]]:
         """
         Encodes each text chunk into a numeric vector.
 
@@ -33,11 +39,15 @@ class BasicEmbedder(EmbeddingGenerator):
         Returns:
             List[List[float]]: List of embedding vectors (lists of floats).
         """
-        embeddings = []
-        for chunk in text_chunks:
-            # Dummy embedding: deterministic random vector based on text hash
-            hash_val = abs(hash(chunk)) % (10**6)
-            self.rng = np.random.default_rng(hash_val)
-            vector = self.rng.normal(size=self.embedding_dim).tolist()
-            embeddings.append(vector)
-        return embeddings
+        all_embeddings = []
+
+        for i in range(0, len(text_chunks), batch_size):
+            batch = text_chunks[i:i + batch_size]
+            response = client.embeddings.create(
+                input=batch,
+                model=model
+            )
+            batch_embeddings = [d.embedding for d in response.data]
+            all_embeddings.extend(batch_embeddings)
+
+        return np.array(all_embeddings)

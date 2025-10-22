@@ -9,6 +9,7 @@
 import os
 import json
 from typing import List, Dict, Any
+import faiss 
 
 from data_setup.ingestion_interfaces import StorageManager
 
@@ -59,12 +60,13 @@ class LocalStorageManager(StorageManager):
             embeddings (List[List[float]]): List of embedding vectors.
             metadata (Dict[str, Any]): Ignored (handled by MetadataManager).
         """
-    import faiss
-    import numpy as np
-
-    # Ensure FAISS index exists or create one
+    
+    
+    base_dir = "data_store"
     index_path = "faiss_index.bin"
     mapping_path = "embedding_map.json"
+
+    os.makedirs(base_dir, exist_ok=True)
 
     # Convert embeddings to NumPy array and normalize
     embedding_array = np.array(embeddings).astype("float32")
@@ -84,8 +86,8 @@ class LocalStorageManager(StorageManager):
     new_ids = list(range(start_id, end_id))
 
     # Update mapping (FAISS ID → doc reference)
-    if os.path.exists(mapping_path):
-        with open(mapping_path, "r", encoding="utf-8") as f:
+    if os.path.exists(meta_path):
+        with open(meta_path, "r", encoding="utf-8") as f:
             try:
                 id_map = json.load(f)
             except json.JSONDecodeError:
@@ -93,14 +95,19 @@ class LocalStorageManager(StorageManager):
     else:
         id_map = {}
 
+    # --- Update document entry ---
     id_map[doc_id] = {
-        "faiss_ids": new_ids,
+        "faiss_ids": new_ids,          # FAISS vector IDs for this document
+        "chunks": chunks,              # raw text chunks
+        "embeddings": embeddings,      # store embeddings for rebuilds
+        "metadata": metadata,          # extra info like filename, path, etc.
         "count": len(new_ids)
     }
 
-    # Save updated mapping and FAISS index
-    with open(mapping_path, "w", encoding="utf-8") as f:
+    # --- Save metadata + FAISS index ---
+    with open(meta_path, "w", encoding="utf-8") as f:
         json.dump(id_map, f, indent=4)
+
     faiss.write_index(index, index_path)
 
 

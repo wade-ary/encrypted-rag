@@ -3,3 +3,5 @@ python-docx
 numpy
 faiss
 pytest
+openai
+faiss

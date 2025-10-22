@@ -1,3 +1,6 @@
 .pytest_cache
 data_setup/__pycache__
 data_setup/document_loader/__pycache__
+test/__pycache__
+test/.pytest_cache
+.env
