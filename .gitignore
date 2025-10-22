@@ -5,3 +5,8 @@ test/__pycache__
 test/.pytest_cache
 .env
 .vscode
+data_setup/embedding_generator/__pycache__
+data_setup/storage_manager/__pycache__
+data_setup/text_preprocessor/__pycache__
+test/__pycache__
+test/.pytest_cache
