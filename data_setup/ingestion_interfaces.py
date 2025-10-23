@@ -88,7 +88,7 @@ class DocumentIngestionPipeline:
         self.storage = storage
       
 
-    def ingest(self, file_path: str, sector: str, permission: str) -> str:
+    def ingest(self, file_path: str, sector: str, permission: str) -> None:
         """Runs the full ingestion pipeline end-to-end."""
         pass
 
