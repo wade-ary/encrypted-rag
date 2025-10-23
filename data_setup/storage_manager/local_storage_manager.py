@@ -87,8 +87,8 @@ class LocalStorageManager(StorageManager):
         new_ids = list(range(start_id, end_id))
 
         # Update mapping (FAISS ID → doc reference)
-        if os.path.exists(meta_path):
-            with open(meta_path, "r", encoding="utf-8") as f:
+        if os.path.exists(mapping_path):
+            with open(mapping_path, "r", encoding="utf-8") as f:
                 try:
                     id_map = json.load(f)
                 except json.JSONDecodeError:
@@ -100,13 +100,13 @@ class LocalStorageManager(StorageManager):
         id_map[doc_id] = {
             "faiss_ids": new_ids,          # FAISS vector IDs for this document
             "chunks": chunks,              # raw text chunks
-            "embeddings": embeddings,      # store embeddings for rebuilds
+            "embeddings": embeddings.tolist(),      # store embeddings for rebuilds
             "metadata": metadata,          # extra info like filename, path, etc.
             "count": len(new_ids)
         }
 
         # --- Save metadata + FAISS index ---
-        with open(meta_path, "w", encoding="utf-8") as f:
+        with open(mapping_path, "w", encoding="utf-8") as f:
             json.dump(id_map, f, indent=4)
 
         faiss.write_index(index, index_path)

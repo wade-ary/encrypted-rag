@@ -10,7 +10,10 @@ from data_setup.storage_manager.local_storage_manager import LocalStorageManager
 import os
 import sys, os
 SAMPLE_DIR = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/test/sample_text"
+from sentence_transformers import SentenceTransformer
+import inspect
 
+print(inspect.signature(SentenceTransformer.encode))
 
 loader = PDFLoader()
 file_path = os.path.join(SAMPLE_DIR, "testing_doc.pdf")

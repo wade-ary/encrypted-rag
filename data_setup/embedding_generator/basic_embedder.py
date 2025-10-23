@@ -4,6 +4,13 @@ from typing import List, Any
 import openai
 import faiss
 import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["OMP_NUM_THREADS"] = "1"
+os.environ["OPENBLAS_NUM_THREADS"] = "1"
+os.environ["MKL_NUM_THREADS"] = "1"
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+os.environ["NUMEXPR_NUM_THREADS"] = "1"
+from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 from dotenv import load_dotenv
 load_dotenv()
@@ -41,16 +48,12 @@ class BasicEmbedder(EmbeddingGenerator):
         Returns:
             List[List[float]]: List of embedding vectors (lists of floats).
         """
-        model="text-embedding-ada-002"
+        model= "sentence-transformers/all-mpnet-base-v2"
         all_embeddings = []
 
-        for i in range(0, len(text_chunks), batch_size):
-            batch = text_chunks[i:i + batch_size]
-            response = client.embeddings.create(
-                input=batch,
-                model=model
-            )
-            batch_embeddings = [d.embedding for d in response.data]
-            all_embeddings.extend(batch_embeddings)
+        
+        model = SentenceTransformer(model)
+        all_embeddings = model.encode(text_chunks, batch_size=32, show_progress_bar=True, convert_to_numpy=True, pool = None)
+  
 
-        return np.array(all_embeddings)
+        return all_embeddings

@@ -10,3 +10,6 @@ data_setup/storage_manager/__pycache__
 data_setup/text_preprocessor/__pycache__
 test/__pycache__
 test/.pytest_cache
+data_setup/embedding_generator/__pycache__/basic_embedder.cpython-313.pyc
+embedding_map.json
+faiss_index.bin
