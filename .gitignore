@@ -13,3 +13,13 @@ test/.pytest_cache
 data_setup/embedding_generator/__pycache__/basic_embedder.cpython-313.pyc
 embedding_map.json
 faiss_index.bin
+data_store
+retrieval_architecture/__pycache__
+data_setup/document_ingestion_pipeline/__pycache__
+data_setup/document_loader/__pycache__
+data_setup/embedding_generator/__pycache__
+data_setup/storage_manager/__pycache__
+data_setup/text_preprocessor/__pycache__
+retrieval_architecture/MetadataRetrieval/__pycache__
+retrieval_architecture/RetrieverPipelines/__pycache__
+retrieval_architecture/VectorIndexRetrieval/__pycache__
