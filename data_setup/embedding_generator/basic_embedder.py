@@ -29,14 +29,13 @@ class BasicEmbedder(EmbeddingGenerator):
     (e.g., MPNet, Specter, PubMedBERT).
     """
 
-    def __init__(self, embedding_dim: int = 384, seed: int = 42):
+    def __init__(self):
         """
         Args:
             embedding_dim (int): Dimensionality of output embeddings.
             seed (int): Random seed for reproducibility.
         """
-        self.embedding_dim = embedding_dim
-        self.rng = np.random.default_rng(seed)
+       
 
     def encode(self, text_chunks: List[str], batch_size: int = 100) -> List[List[float]]:
         """

@@ -1,7 +1,7 @@
 import os
 from retrieval_architecture.retrieval_interfaces import VectorIndexRetrieval
 import numpy as np #numpy
-from typing import List, Any
+from typing import List, Tuple, Any
 import openai
 import faiss
 import os

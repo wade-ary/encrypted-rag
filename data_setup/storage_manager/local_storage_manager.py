@@ -64,8 +64,8 @@ class LocalStorageManager(StorageManager):
     
     
         base_dir = "data_store"
-        index_path = "faiss_index.bin"
-        mapping_path = "embedding_map.json"
+        index_path = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/data_store/faiss_index.bin"
+        mapping_path = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/data_store/embedding_map.json"
 
         os.makedirs(base_dir, exist_ok=True)
 

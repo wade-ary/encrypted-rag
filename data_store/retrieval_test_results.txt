@@ -1,0 +1,115 @@
+=== Query: Main methods of drug trafficking in the EU ===
+
+Result 1:
+Document ID: europol
+Score: 0.7574
+Chunk:
+drivers 
+of illicit drug markets. Continued implementation of all 
+relevant measures under the EU legislative framework, 
+along with the development of new policies and 
+responses to tackle emerging t
+
+Result 2:
+Document ID: europol
+Score: 0.7554
+Chunk:
+companies along the trafficking routes. Trafficking of 
+acetic anhydride, the main chemical required for heroin 
+production, from the European Union also continues 
+to take place on the ‘reverse Balk
+
+Result 3:
+Document ID: europol
+Score: 0.7502
+Chunk:
+n, trafficking and use.
+EU Drug Markets Analysis: Key insights for policy and practice
+36
+Towards a coherent 
+approach
+The EU legislative framework is key to providing a 
+coherent approach for law enf
+
+============================================================
+
+=== Query: Country with the highest influence in the european drug trade ===
+
+Result 1:
+Document ID: un_office_drugs
+Score: 0.7764
+Chunk:
+is mainly linked 
+to the selling of drugs to ﬁ nal consumers. In line with the 
+large illicit gross income in comparison to their GDP, 
+Albania, Austria, Belgium, Iran (Islamic Republic of) and 
+the U
+
+Result 2:
+Document ID: un_office_drugs
+Score: 0.7481
+Chunk:
+tries such as France, 
+Germany, Italy, and the United Kingdom of Great Britain 
+and Northern Ireland were among the countries where 
+most illicit gross income for both drugs was 
+generated. Despite di
+
+Result 3:
+Document ID: global_initiatives
+Score: 0.7400
+Chunk:
+GERMANY
+CZECH 
+REPUBLIC
+ROMANIA
+ITALY
+UNITED
+KINGDOM
+BELGIUM
+NETHERLANDS
+SPAIN
+About this report 
+EUROPEAN DRUG 
+TRENDS MONITOR
+2
+EUROPEAN DRUG 
+TRENDS MONITOR
+2
+trafficking activities. The monitor re
+
+============================================================
+
+=== Query: Most prominent drug trafficked through the EU ===
+
+Result 1:
+Document ID: europol
+Score: 0.7475
+Chunk:
+the 
+largest drug market in the European Union.
+In 2021, cannabis seizures in the European Union 
+reached record levels, with 256 tonnes of herbal 
+cannabis and 816 tonnes of resin seized. Criminal
+
+Result 2:
+Document ID: europol
+Score: 0.7457
+Chunk:
+companies along the trafficking routes. Trafficking of 
+acetic anhydride, the main chemical required for heroin 
+production, from the European Union also continues 
+to take place on the ‘reverse Balk
+
+Result 3:
+Document ID: un_office_drugs
+Score: 0.7178
+Chunk:
+is mainly linked 
+to the selling of drugs to ﬁ nal consumers. In line with the 
+large illicit gross income in comparison to their GDP, 
+Albania, Austria, Belgium, Iran (Islamic Republic of) and 
+the U
+
+============================================================
+
