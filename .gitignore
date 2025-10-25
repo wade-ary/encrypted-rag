@@ -23,3 +23,4 @@ data_setup/text_preprocessor/__pycache__
 retrieval_architecture/MetadataRetrieval/__pycache__
 retrieval_architecture/RetrieverPipelines/__pycache__
 retrieval_architecture/VectorIndexRetrieval/__pycache__
+final_summary/__pycache__
