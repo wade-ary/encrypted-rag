@@ -24,14 +24,15 @@ class BasicRetrieverPipeline(RetrieverPipeline):
         self.metadata_retrieval = metadata_retrieval
         
 
-    def retrieve(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+    def retrieve(self, query: str, top_k: int = 5, permission: str = "public") -> List[Dict[str, Any]]:
         """Given a text query, returns top-k most relevant chunks + metadata."""
 
         # Search in the vector index to get FAISS IDs + similarity scores
-        faiss_ids, scores = self.vector_index_retrieval.search(query, top_k)
+        faiss_ids, scores = self.vector_index_retrieval.search(query, top_k + 10)
 
-        # Retrieve corresponding chunks + metadata
-        text_chunks = self.metadata_retrieval.get_by_faiss_ids(faiss_ids)
+        # Retrieve corresponding encrypted_chunks + metadata
+        text_chunks = self.metadata_retrieval.get_by_faiss_ids(faiss_ids, permission, top_k)
+       
 
         # Combine each chunk with its matching score
         results = []

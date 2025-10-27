@@ -24,19 +24,19 @@ class BasicEncryption(Encryption):
         if key is None:
             raise ValueError(f"Invalid permission level: {permission_level}")
 
-        ciphertext = ""
+        cipher_text = ""
         for char in plaintext:
             # Only shift letters; leave others unchanged
             if char.isalpha():
                 base = ord('A') if char.isupper() else ord('a')
-                ciphertext += chr((ord(char) - base + key) % 26 + base)
+                cipher_text += chr((ord(char) - base + key) % 26 + base)
             else:
-                ciphertext += char
+                cipher_text += char
 
-        return ciphertext
+        return cipher_text
 
     
-    def decrypt(self, ciphertext: str, permission_level: str) -> str:
+    def decrypt(self, cipher_text: str, permission_level: str) -> str:
         """
         Decrypt text by reversing the character shift based on permission level.
         """
@@ -45,7 +45,7 @@ class BasicEncryption(Encryption):
             raise ValueError(f"Invalid permission level: {permission_level}")
 
         plaintext = ""
-        for char in ciphertext:
+        for char in cipher_text:
             if char.isalpha():
                 base = ord('A') if char.isupper() else ord('a')
                 plaintext += chr((ord(char) - base - key) % 26 + base)
