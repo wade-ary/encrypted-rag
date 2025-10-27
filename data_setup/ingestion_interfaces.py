@@ -62,6 +62,55 @@ class StorageManager(ABC):
         """Fetches stored document data and metadata."""
         pass
 
+class Encryption(ABC):
+    """
+    Abstract base class for encryption and decryption logic.
+    Each implementation defines how text is encrypted/decrypted
+    based on a given permission level.
+    """
+
+    @abstractmethod
+    def encrypt(self, plaintext: str, permission_level: str) -> str:
+        """
+        Encrypt a plaintext string using the key associated with the given permission level.
+
+        Args:
+            plaintext (str): The raw text to encrypt.
+            permission_level (str): The access level (e.g., 'public', 'confidential', 'restricted').
+
+        Returns:
+            str: The encrypted ciphertext.
+        """
+        pass
+
+    @abstractmethod
+    def decrypt(self, ciphertext: str, permission_level: str) -> str:
+        """
+        Decrypt a ciphertext string using the key associated with the given permission level.
+
+        Args:
+            ciphertext (str): The encrypted text to decrypt.
+            permission_level (str): The access level corresponding to the encryption key.
+
+        Returns:
+            str: The decrypted plaintext.
+        """
+        pass
+
+    @abstractmethod
+    def get_key(self, permission_level: str) -> Any:
+        """
+        Retrieve or derive the cryptographic key for a given permission level.
+        In a key hierarchy, higher-level keys may derive lower-level ones.
+
+        Args:
+            permission_level (str): The permission level whose key is requested.
+
+        Returns:
+            Any: The encryption key or key material (implementation-defined).
+        """
+        pass
+
 
 
 
