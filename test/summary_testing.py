@@ -55,7 +55,7 @@ for role, result in results.items():
         for i, chunk in enumerate(result, 1):
             f.write(f"Result {i}:\n")
             f.write(f"Document ID: {chunk.get('doc_id', 'N/A')}\n")
-            f.write(f"Permission Level: {chunk.get('permission_level', 'N/A')}\n")
+            f.write(f"Permission Level: {chunk.get('permission', 'N/A')}\n")
             f.write(f"Chunk:\n{chunk.get('chunk', '')}\n\n")
         f.write("=" * 60 + "\n\n")
     print(f"✅ Saved {role} results to: {output_path}")

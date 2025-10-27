@@ -34,7 +34,7 @@ class BasicMetadataRetrieval:
                     "doc_id": doc_id,
                     "chunk": doc_data["chunks"][idx],
                     "embedding": doc_data["embeddings"][idx],
-                    "permission_level" : doc_data.get("permission_level", "public")
+                    "permission": doc_data.get("metadata", {}).get("permission", "public")
                     
                     
                 }
@@ -49,13 +49,13 @@ class BasicMetadataRetrieval:
         for fid in faiss_ids_extended:
             if fid in id_to_chunk:
                 doc = id_to_chunk[fid]
-                doc_level = hierarchy.get(doc["permission_level"], 1)
+                doc_level = hierarchy.get(doc["permission"], 1)
 
                 # Keep only if user's level >= doc's level
                 if user_level >= doc_level:
                     # 🔓 Decrypt the chunk using the document’s permission level
                     encrypted_text = doc["chunk"]
-                    decrypted_text = encryption.decrypt(encrypted_text, doc["permission_level"])
+                    decrypted_text = encryption.decrypt(encrypted_text, doc["permission"])
                     doc["chunk"] = decrypted_text  # replace ciphertext with plaintext
                     results.append(doc)
 
