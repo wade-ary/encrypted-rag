@@ -19,7 +19,7 @@ class BasicMetadataRetrieval:
     def __init__(self, metadata_path: str):
         self.metadata_path = metadata_path
 
-    def get_by_faiss_ids(self, faiss_ids: List[int], permission: str, top_k: int) -> List[Dict[str, Any]]:
+    def get_by_faiss_ids(self, faiss_ids: List[int], permission: str, top_k: int, encryption) -> List[Dict[str, Any]]:
         """Return chunks and metadata corresponding to given FAISS IDs."""
         
         # Load the metadata JSON
@@ -44,7 +44,7 @@ class BasicMetadataRetrieval:
 
         # Retrieve a few extra
         faiss_ids_extended = faiss_ids[:top_k + 10]
-        encryption = BasicEncryption()
+       
         results = []
         for fid in faiss_ids_extended:
             if fid in id_to_chunk:

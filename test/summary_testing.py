@@ -16,7 +16,7 @@ from retrieval_architecture.MetadataRetrieval.basic_metadata_retrieval import Ba
 from retrieval_architecture.VectorIndexRetrieval.basic_vector_retrieval import BasicVectorRetrieval
 from retrieval_architecture.RetrieverPipelines.basic_retriever_pipeline import BasicRetrieverPipeline
 from final_summary.basic_summary import BasicSummary
-
+from data_setup.encryption_system.basic_encryption import  BasicEncryption
 SAMPLE_DIR = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/test/sample_text"
 DATA_STORE = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/data_store"
 OUTPUT_FILE = os.path.join(DATA_STORE, "retrieval_test_summary.txt")
@@ -28,7 +28,8 @@ metadata_retrieval = BasicMetadataRetrieval(
 vector_retrieval = BasicVectorRetrieval(
     index_path=os.path.join(DATA_STORE, "encryption_test_faiss_index.bin")
 )
-retrieval_pipeline = BasicRetrieverPipeline(vector_retrieval, metadata_retrieval)
+encryption = BasicEncryption()
+retrieval_pipeline = BasicRetrieverPipeline(vector_retrieval, metadata_retrieval, encryption)
 
 
 # --- Run Sample Queries ---
