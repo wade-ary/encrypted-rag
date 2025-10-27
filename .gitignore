@@ -24,3 +24,6 @@ retrieval_architecture/MetadataRetrieval/__pycache__
 retrieval_architecture/RetrieverPipelines/__pycache__
 retrieval_architecture/VectorIndexRetrieval/__pycache__
 final_summary/__pycache__
+__pycache__/
+*/__pycache__/
+**/__pycache__/
