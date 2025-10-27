@@ -31,7 +31,7 @@ class BasicRetrieverPipeline(RetrieverPipeline):
         faiss_ids, scores = self.vector_index_retrieval.search(query, top_k + 10)
 
         # Retrieve corresponding encrypted_chunks + metadata
-        text_chunks = self.metadata_retrieval.get_by_faiss_ids(faiss_ids, permission, top_k)
+        text_chunks = self.metadata_retrieval.get_by_faiss_ids(faiss_ids, permission, top_k, )
        
 
         # Combine each chunk with its matching score

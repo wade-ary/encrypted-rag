@@ -97,19 +97,7 @@ class Encryption(ABC):
         """
         pass
 
-    @abstractmethod
-    def get_key(self, permission_level: str) -> Any:
-        """
-        Retrieve or derive the cryptographic key for a given permission level.
-        In a key hierarchy, higher-level keys may derive lower-level ones.
-
-        Args:
-            permission_level (str): The permission level whose key is requested.
-
-        Returns:
-            Any: The encryption key or key material (implementation-defined).
-        """
-        pass
+    
 
 
 

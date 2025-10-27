@@ -44,7 +44,7 @@ class BasicMetadataRetrieval:
 
         # Retrieve a few extra
         faiss_ids_extended = faiss_ids[:top_k + 10]
-
+        encryption = BasicEncryption()
         results = []
         for fid in faiss_ids_extended:
             if fid in id_to_chunk:
@@ -55,7 +55,7 @@ class BasicMetadataRetrieval:
                 if user_level >= doc_level:
                     # 🔓 Decrypt the chunk using the document’s permission level
                     encrypted_text = doc["chunk"]
-                    decrypted_text = decryptor.decrypt(encrypted_text, doc["permission_level"])
+                    decrypted_text = encryption.decrypt(encrypted_text, doc["permission_level"])
                     doc["chunk"] = decrypted_text  # replace ciphertext with plaintext
                     results.append(doc)
 

@@ -23,10 +23,10 @@ OUTPUT_FILE = os.path.join(DATA_STORE, "retrieval_test_summary.txt")
 
 
 metadata_retrieval = BasicMetadataRetrieval(
-    metadata_path=os.path.join(DATA_STORE, "embedding_map.json")
+    metadata_path=os.path.join(DATA_STORE, "encrypted_embedding_map.json")
 )
 vector_retrieval = BasicVectorRetrieval(
-    index_path=os.path.join(DATA_STORE, "faiss_index.bin")
+    index_path=os.path.join(DATA_STORE, "encryption_test_faiss_index.bin")
 )
 retrieval_pipeline = BasicRetrieverPipeline(vector_retrieval, metadata_retrieval)
 
@@ -37,21 +37,25 @@ query =  "Main methods of drug trafficking in the EU"
 
 
 
-result = retrieval_pipeline.retrieve(query=query, top_k=5)
+result_public = retrieval_pipeline.retrieve(query=query, top_k=3, permission="public" )
+result_employee = retrieval_pipeline.retrieve(query=query, top_k=3, permission="employee")
+result_admin = retrieval_pipeline.retrieve(query=query, top_k=3, permission="admin")
 
-basic_summary_gen = BasicSummary() 
+results = {
+    "public": result_public,
+    "employee": result_employee,
+    "admin": result_admin
+}
 
-test_summary = basic_summary_gen.summarize(result)
-
-# --- Generate and Save Summaries to File ---
-with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-
-    f.write(f"=== Query: {query} ===\n\n")
-
- 
-
-    f.write("Summary:\n")
-    f.write(test_summary + "\n\n")
-    f.write("=" * 60 + "\n\n")
-
-print(f"✅ Summarization test complete. Summaries saved to:\n{OUTPUT_FILE}")
+for role, result in results.items():
+    output_path = os.path.join(DATA_STORE, f"retrieval_test_{role}.txt")
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(f"=== Query: {query} ===\n\n")
+        f.write(f"=== Permission Level: {role.upper()} ===\n\n")
+        for i, chunk in enumerate(result, 1):
+            f.write(f"Result {i}:\n")
+            f.write(f"Document ID: {chunk.get('doc_id', 'N/A')}\n")
+            f.write(f"Permission Level: {chunk.get('permission_level', 'N/A')}\n")
+            f.write(f"Chunk:\n{chunk.get('chunk', '')}\n\n")
+        f.write("=" * 60 + "\n\n")
+    print(f"✅ Saved {role} results to: {output_path}")

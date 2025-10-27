@@ -41,7 +41,7 @@ class BasicIngestionPipeline(DocumentIngestionPipeline):
         self.storage = storage
         self.encryption = encryption
  
-    def ingest(self, file_path: str, sector: str, permission: str) -> None:
+    def ingest(self, file_path: str, permission: str) -> None:
         """Runs the full ingestion pipeline end-to-end."""
         
         # Load document 

@@ -7,6 +7,8 @@ from data_setup.document_loader.txt_loader import TxtLoader
 from data_setup.embedding_generator.basic_embedder import BasicEmbedder
 from data_setup.text_preprocessor.basic_preprocessor import BasicPreprocessor
 from data_setup.storage_manager.local_storage_manager import LocalStorageManager
+from data_setup.encryption_system.basic_encryption import BasicEncryption
+from data_setup.document_ingestion_pipeline.basic_ingestion_pipeline import BasicIngestionPipeline
 import os
 import sys, os
 SAMPLE_DIR = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/test/sample_text"
@@ -16,38 +18,21 @@ import inspect
 print(inspect.signature(SentenceTransformer.encode))
 
 loader = PDFLoader()
-file_path = os.path.join(SAMPLE_DIR, "testing_doc.pdf")
-text = loader.load(file_path)
-metadata = loader.get_metadata(file_path)
 
 preprocess = BasicPreprocessor()
-chunks = preprocess.chunk(text)
-
 embedder = BasicEmbedder()
-embeddings = embedder.encode(chunks)
-
+encryption = BasicEncryption()
 data_store = LocalStorageManager()
-data_store.store("sample_doc", chunks, embeddings, metadata)
+
+ingestion_pipeline = BasicIngestionPipeline(loader,preprocess, embedder, data_store, encryption)
+file_path1 = os.path.join(SAMPLE_DIR, "europol.pdf")
+file_path2 = os.path.join(SAMPLE_DIR, "global_initiatives.pdf")
+file_path3 = os.path.join(SAMPLE_DIR, "un_office_drugs.pdf")
 
 
-import json
-
-meta_path = "vector_store/metadata.json"
-
-if os.path.exists(meta_path):
-    with open(meta_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    if "sample_doc" in data:
-        doc = data["sample_doc"]
-        print(f"\nDocument ID: sample_doc")
-        print(f"Number of chunks: {len(doc['chunks'])}")
-        print(f"FAISS IDs: {doc['faiss_ids'][:5]}{'...' if len(doc['faiss_ids']) > 5 else ''}")
-        print(f"Metadata: {doc['metadata']}")
-    else:
-        print("sample_doc not found in metadata.json")
-else:
-    print("No metadata.json file found.")
+ingestion_pipeline.ingest(file_path1, "public")
+ingestion_pipeline.ingest(file_path2,"employee")
+ingestion_pipeline.ingest(file_path3, "admin")
 
 
 
