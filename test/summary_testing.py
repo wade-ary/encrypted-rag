@@ -15,9 +15,10 @@ from data_setup.storage_manager.local_storage_manager import LocalStorageManager
 from retrieval_architecture.MetadataRetrieval.basic_metadata_retrieval import BasicMetadataRetrieval
 from retrieval_architecture.VectorIndexRetrieval.basic_vector_retrieval import BasicVectorRetrieval
 from retrieval_architecture.RetrieverPipelines.basic_retriever_pipeline import BasicRetrieverPipeline
-from final_summary.basic_summary import BasicSummary
 from data_setup.encryption_system.basic_encryption import  BasicEncryption
 from data_setup.encryption_system.aes_encryption import AESEncryption
+from agentic_workflow.mistral_agent import MistralAgent
+
 SAMPLE_DIR = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/test/sample_text"
 DATA_STORE = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/data_store"
 OUTPUT_FILE = os.path.join(DATA_STORE, "retrieval_test_summary.txt")
@@ -36,10 +37,9 @@ retrieval_pipeline = BasicRetrieverPipeline(vector_retrieval, metadata_retrieval
 # --- Run Sample Queries ---
 query =  "KEY TREND 1: Heroin is still available but there are signs of change."
 
+ai_agent = MistralAgent()
 
-
-
-result_public = retrieval_pipeline.retrieve(query=query, top_k=3, permission="public" )
+result_public = retrieval_pipeline.retrieve(query=query, top_k=3, permission="public")
 result_employee = retrieval_pipeline.retrieve(query=query, top_k=3, permission="employee")
 result_admin = retrieval_pipeline.retrieve(query=query, top_k=3, permission="admin")
 
@@ -50,14 +50,23 @@ results = {
 }
 
 for role, result in results.items():
+    # --- Generate summary using the agent ---
+    summary = ai_agent.summarize(result)
+
+    # --- Save results + summary ---
     output_path = os.path.join(DATA_STORE, f"retrieval_test_{role}.txt")
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(f"=== Query: {query} ===\n\n")
         f.write(f"=== Permission Level: {role.upper()} ===\n\n")
+
         for i, chunk in enumerate(result, 1):
             f.write(f"Result {i}:\n")
             f.write(f"Document ID: {chunk.get('doc_id', 'N/A')}\n")
             f.write(f"Permission Level: {chunk.get('permission', 'N/A')}\n")
-            f.write(f"Chunk:\n{chunk.get('chunk', '')}\n\n")
+    
+
+        f.write("--- SUMMARY ---\n")
+        f.write(summary + "\n")
         f.write("=" * 60 + "\n\n")
-    print(f"✅ Saved {role} results to: {output_path}")
+
+    print(f"✅ Saved {role} results + summary to: {output_path}")
