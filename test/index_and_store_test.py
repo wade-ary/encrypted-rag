@@ -8,6 +8,7 @@ from data_setup.embedding_generator.basic_embedder import BasicEmbedder
 from data_setup.text_preprocessor.basic_preprocessor import BasicPreprocessor
 from data_setup.storage_manager.local_storage_manager import LocalStorageManager
 from data_setup.encryption_system.basic_encryption import BasicEncryption
+from data_setup.encryption_system.aes_encryption import AESEncryption
 from data_setup.document_ingestion_pipeline.basic_ingestion_pipeline import BasicIngestionPipeline
 import os
 import sys, os
@@ -15,13 +16,12 @@ SAMPLE_DIR = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/test/sample_t
 from sentence_transformers import SentenceTransformer
 import inspect
 
-print(inspect.signature(SentenceTransformer.encode))
 
 loader = PDFLoader()
 
 preprocess = BasicPreprocessor()
 embedder = BasicEmbedder()
-encryption = BasicEncryption()
+encryption = AESEncryption()
 data_store = LocalStorageManager()
 
 ingestion_pipeline = BasicIngestionPipeline(loader,preprocess, embedder, data_store, encryption)

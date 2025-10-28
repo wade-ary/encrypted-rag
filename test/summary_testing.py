@@ -17,23 +17,24 @@ from retrieval_architecture.VectorIndexRetrieval.basic_vector_retrieval import B
 from retrieval_architecture.RetrieverPipelines.basic_retriever_pipeline import BasicRetrieverPipeline
 from final_summary.basic_summary import BasicSummary
 from data_setup.encryption_system.basic_encryption import  BasicEncryption
+from data_setup.encryption_system.aes_encryption import AESEncryption
 SAMPLE_DIR = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/test/sample_text"
 DATA_STORE = "/Users/aryamanwade/Desktop/encrypt_rag/encrypted-rag/data_store"
 OUTPUT_FILE = os.path.join(DATA_STORE, "retrieval_test_summary.txt")
 
 
 metadata_retrieval = BasicMetadataRetrieval(
-    metadata_path=os.path.join(DATA_STORE, "encrypted_embedding_map.json")
+    metadata_path=os.path.join(DATA_STORE, "aes_embedding_map.json")
 )
 vector_retrieval = BasicVectorRetrieval(
-    index_path=os.path.join(DATA_STORE, "encryption_test_faiss_index.bin")
+    index_path=os.path.join(DATA_STORE, "aes_test_faiss_index.bin")
 )
-encryption = BasicEncryption()
+encryption = AESEncryption()
 retrieval_pipeline = BasicRetrieverPipeline(vector_retrieval, metadata_retrieval, encryption)
 
 
 # --- Run Sample Queries ---
-query =  "Main methods of drug trafficking in the EU"
+query =  "KEY TREND 1: Heroin is still available but there are signs of change."
 
 
 

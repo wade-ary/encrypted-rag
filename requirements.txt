@@ -7,3 +7,4 @@ openai
 faiss-cpu
 python-dotenv
 sentence-transformers
+cryptography
