@@ -1,5 +1,5 @@
 import ollama
-from agentic_workflow.agentic_interface import AgentInterface
+from agentic_function.agentic_interface import AgentInterface
 
 class MistralAgent(AgentInterface):
     def __init__(self, model_name="mistral"):
