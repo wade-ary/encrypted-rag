@@ -16,12 +16,14 @@ class ConversationMemory:
         with open(self.path, "w") as f:
             json.dump(data, f, indent=2)
 
-    def add_turn(self, user_query, response):
+    def add_turn(self, user_query, refined_query, response, permission):
         data = self._load()
         turn = {
             "turn_id": len(data["conversation"]) + 1,
             "user_query": user_query,
+            "refined_query":refined_query,
             "response": response,
+            "permission":permission,
             "timestamp": datetime.now().isoformat()
         }
         data["conversation"].append(turn)
