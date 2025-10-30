@@ -1,1 +1,1 @@
-# encrypted-rag
+# encrypted permission based RAG retrieval system
