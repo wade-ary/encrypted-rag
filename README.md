@@ -1,14 +1,14 @@
-# 🔒 Encrypted Permission-Based RAG System
+# Encrypted Permission-Based RAG System
 
-A **modular, local-first Retrieval-Augmented Generation (RAG)** architecture designed for **multi-user, permission-aware access** to private document collections.  
+A **modular, Retrieval-Augmented Generation (RAG)** system designed for **multi-user, permission-aware access** to private document collections.  
 This system integrates encryption, secure retrieval, and agentic reasoning — enabling dynamic, context-driven query refinement and adaptive knowledge retrieval.
 
 ---
 
-## 🧩 Overview
+## Overview
 
 This project implements a **secure and intelligent RAG pipeline** that:
-- Ingests documents (`.pdf`, `.docx`, `.txt`) with **assigned permission levels**.
+- Ingests documents with **assigned permission levels**.
 - Cleans and splits them into semantically meaningful **text chunks**.
 - Generates **embeddings** using `MPNet` and indexes them in **FAISS**.
 - Encrypts each chunk using **AES encryption** based on permission level.
@@ -35,4 +35,4 @@ This project implements a **secure and intelligent RAG pipeline** that:
 - Conversation memory tracks all turns (queries, responses, refinements).
 - Each new question is interpreted **in context**, allowing users to build on previous responses.
 
-## Example:
+
