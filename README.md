@@ -17,7 +17,7 @@ This project implements a **secure and intelligent RAG pipeline** that:
 
 ---
 
-## 🧠 Core Workflow
+## Core Workflow
 
 ### 1. Document Ingestion
 - User uploads document(s) and assigns a permission level.
